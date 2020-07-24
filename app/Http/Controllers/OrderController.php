@@ -56,7 +56,7 @@ class OrderController extends Controller
                 $product->order_id = $order->id;
                 $product->product_id = $data_product[$i]->product_id;
                 $product->quantity = $data_product[$i]->quantity;
-                $order->order_item()->save($product);
+                $order->orderitem()->save($product);
             }
         // if()
         // {
