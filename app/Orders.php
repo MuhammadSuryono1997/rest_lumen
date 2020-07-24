@@ -10,7 +10,7 @@ class Orders extends Model
 
     public function customer()
     {
-        return $this->belongsTo('App\Customers');
+        return $this->belongsTo('App\Customers', 'id');
     }
 
     public function orderitem()
