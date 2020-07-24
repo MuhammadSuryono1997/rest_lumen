@@ -37,12 +37,6 @@ class OrderController extends Controller
 
     public function insert(Request $request)
     {
-        // $this->validate($request,
-        // [
-        //     'data.attributes.order_detail.*' => 'present|array',
-        //     'data.user_id' => 'required',
-        //     'status' => 'required'
-        // ]);
         $request_data = $request->all();
         $order = new Orders();
         $order->user_id = $request_data['data']['attributes']['user_id'];
@@ -64,42 +58,18 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request,
-        [
-            'full_name' => 'required',
-            'username' => 'required',
-            'email' => 'required|email',
-            'phone_number'=> 'required'
-        ]);
-
-        $customer = Orders::find($id);
-
-        if(!$customer)
+        $order = Orders::find($id);
+        if(!$order)
         {
             Log::error("Data not found");
-            return response()->json(["messages"=>"failed retrieve data","status" => false,"data"=> ''], 404);
+            return response()->json(["messages"=>"failed update data","status" => false,"data"=> ''], 404);
         }
-        $customer->fullname = $request->input('full_name');
-        $customer->username = $request->input('username');
-        $customer->email = $request->input('email');
-        $customer->phone_number = $request->input('phone_number');
+        $request_data = $request->all();
+        $order->user_id = $request_data['data']['attributes']['user_id'];
+        $order->order_status = $request_data['data']['attributes']['status'];
+        $order->save();
 
-        if($customer->save())
-        {
-            Log::info("Success input customer");
-            return response()->json(
-                [
-                    "data"=>[
-                        "attributes"=>[
-                            "full_name" =>$request->input('full_name'),
-                            "username" =>$request->input('username'),
-                            "email" =>$request->input('email'),
-                            "phone_number" =>$request->input('phone_number')
-                        ]
-                    ]
-                        ], 201
-            );
-        }
+        return $request;
     }
 
     public function delete($id)
