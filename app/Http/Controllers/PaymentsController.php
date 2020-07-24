@@ -167,14 +167,14 @@ class PaymentController extends Controller
 
     public function update($id)
     {
-        // Config::$serverKey = 'SB-Mid-server-jMa1yoEHLCbuNPkScwv9LKwI';
-        // if(!isset(Config::$serverKey))
-        // {
-        //     return "Please set your payment server key";
-        // }
+        Config::$serverKey = 'SB-Mid-server-jMa1yoEHLCbuNPkScwv9LKwI';
+        if(!isset(Config::$serverKey))
+        {
+            return "Please set your payment server key";
+        }
 
-        // Config::$isSanitized = true;
-        // Config::$is3ds = true;
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
         $url = "https://api.sandbox.midtrans.com/v2/". $id. "/status";
         $curl = curl_init("$url");
         // error_log(var_export($curl));
