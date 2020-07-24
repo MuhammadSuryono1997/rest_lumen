@@ -37,13 +37,15 @@ class CustomerController extends Controller
     {
         $this->validate($request,
         [
-            'full_name' => 'required',
-            'username' => 'required',
-            'email' => 'required|email',
-            'phone_number'=> 'required'
+            'data' => 'present|array',
+            'data.attributes.*.full_name'=> 'required'
         ]);
+        // $this->validate($request,
+        // [
+        //     'data'=>'required'
+        // ]);
         $customer = new Customers();
-        $customer->fullname = $request->input('full_name');
+        $customer->fullname = $request->input('data');
         $customer->username = $request->input('username');
         $customer->email = $request->input('email');
         $customer->phone_number = $request->input('phone_number');
