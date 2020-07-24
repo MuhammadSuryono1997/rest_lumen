@@ -31,7 +31,12 @@ $router->group(['prefix'=>'api/v1'], function() use ($router)
     $router->get('order', 'OrderController@getAll');
     $router->get('order/{id}', 'OrderController@getById');
 
-    
+    // Product Route
+    $router->post('product', 'ProductController@insert');
+    $router->put('product/{id}', 'ProductController@update');
+    $router->delete('product/{id}', 'ProductController@delete');
+    $router->get('product', 'ProductController@getAll');
+    $router->get('product/{id}', 'ProductController@getById');
 
 
 
