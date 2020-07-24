@@ -167,24 +167,24 @@ class PaymentController extends Controller
 
     public function update($id)
     {
-        // $url = "https://api.sandbox.midtrans.com/v2/". $id. "/status";
-        // $curl = curl_init("$url");
+        $url = "https://api.sandbox.midtrans.com/v2/". $id. "/status";
+        $curl = curl_init("$url");
         // error_log(var_export($curl));
 
-        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         // curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
-        // curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            // 'Authorization: Basic ' . base64_encode(Config::$serverKey.':'),
-        // ));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic ' . base64_encode(Config::$serverKey.':'),
+        ));
 
-        // $response = curl_exec($curl);
+        $response = curl_exec($curl);
         // $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
         // $header = substr($response, 0, $header_size);
         // $image_binary = substr($response, $header_size);
-        // curl_close($curl);
-        $status = Transaction::status(16);
+        curl_close($curl);
+        // $status = Transaction::approve($id);
         // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
-        return $status;
+        return Config::$serverKey;
     }
 
     public function delete($id)
