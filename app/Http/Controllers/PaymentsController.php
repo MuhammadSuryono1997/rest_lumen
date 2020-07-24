@@ -68,7 +68,7 @@ class PaymentController extends Controller
                 ]
         ];
 
-        $item_order = $this->get_items(15);
+        return $item_order = $this->get_items(15);
 
         // $item_list[] = [
         //     'id' => "111",
@@ -82,13 +82,13 @@ class PaymentController extends Controller
         //     'gross_amount' => 20000, // no decimal allowed for creditcard
         // );
         
-        return $customer_details = $this->get_customer(15);
-        // $customer_details = array(
-        //     'first_name'    => "Andri",
-        //     'last_name'     => "Litani",
-        //     'email'         => "andri@litani.com",
-        //     'phone'         => "081122334455",
-        // );
+        $customer_details = $this->get_customer(15);
+        $customer_details = array(
+            'first_name'    => $customer_details->fullname,
+            'last_name'     => "",
+            'email'         => $customer_details->email,
+            'phone'         => $customer_details->phone_number
+        );
         
         // $transaction = array(
         //     // 'enabled_payments' => $enable_payments,
@@ -109,27 +109,18 @@ class PaymentController extends Controller
 
     public function get_items($idOrder)
     {
-        // "SELECT * FROM t_order WHERE id_order = 2";
         $data = OrderItems::where('order_id', $idOrder)->with(array('product' => function($query)
         {
             $query->select();
         }))->get();
 
-        $item_list[] = $data;
-
-        return $item_list;
+        return $data;
     }
 
     public function get_customer($idOrder)
     {
-        // "SELECT * FROM t_order WHERE id_order = 2";
-        // $data = Orders::where('id', $idOrder)->with(array('customer' => function($query)
-        // {
-        //     $query->select();
-        // }))->get();
         $orders = Orders::find($idOrder);
         $customer = Customers::find($orders->user_id);
-        // $item_list[] = $data;
 
         return $customer;
     }
