@@ -44,6 +44,8 @@ class OrderController extends Controller
         //     'status' => 'required'
         // ]);
         $order = new Orders();
+        $order->user_id = "1";
+        $order->order_status = "enable";
         $order->save();
         return $request->all();
     }
