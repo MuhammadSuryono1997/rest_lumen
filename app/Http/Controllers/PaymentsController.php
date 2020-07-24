@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Payments;
 use App\Orders;
+use App\Customers;
+use App\OrderItems;
 
 use App\Http\Controllers\Midtrans\Config;
 use App\Http\Controllers\Midtrans\Transaction;
@@ -55,6 +57,19 @@ class PaymentController extends Controller
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
+        $data_req = [
+                "data"=> [
+                  "attributes"=> [
+                  "payment_type"=> "bank_transfer",
+                  "gross_amount"=> 0,
+                  "bank"=> "bni",
+                  "order_id"=> 1
+                  ]
+                ]
+        ];
+
+        // $item_order = 
+
         $item_list[] = [
             'id' => "111",
             'price' => 20000,
@@ -73,16 +88,7 @@ class PaymentController extends Controller
             'email'         => "andri@litani.com",
             'phone'         => "081122334455",
         );
-        // {
-        //     "data": {
-        //       "attributes": {
-        //       "payment_type": "bank_transfer",
-        //       "gross_amount": 20000,
-        //       "bank": "bni",
-        //       "order_id": 1
-        //       }
-        //     }
-        //   }
+        
         $transaction = array(
             // 'enabled_payments' => $enable_payments,
             'transaction_details' => $transaction_details,
@@ -92,12 +98,22 @@ class PaymentController extends Controller
 
         try {
             $snapToken = Snap::createTransaction($transaction);
-            return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
+            // return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
             // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
         } catch (\Exception $e) {
             dd($e);
             return ['code' => 0 , 'message' => 'failed'];
         }
+    }
+
+    public function get_items($idOrder)
+    {
+        $item_list[] = [
+            'id' => "111",
+            'price' => 20000,
+            'quantity' => 4,
+            'name' => "Majohn"
+        ];
     }
 
 
