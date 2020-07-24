@@ -68,7 +68,7 @@ class PaymentController extends Controller
                 ]
         ];
 
-        return $item_order = $this->get_items(15);
+        $item_order = $this->get_items(15);
 
         // $item_list[] = [
         //     'id' => "111",
@@ -82,7 +82,7 @@ class PaymentController extends Controller
         //     'gross_amount' => 20000, // no decimal allowed for creditcard
         // );
         
-        $customer_details = $this->get_customer(15);
+        return $customer_details = $this->get_customer(15);
         // $customer_details = array(
         //     'first_name'    => "Andri",
         //     'last_name'     => "Litani",
