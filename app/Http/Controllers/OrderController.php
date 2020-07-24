@@ -53,7 +53,7 @@ class OrderController extends Controller
             for($i=0; $i<count($data_product); $i++)
             {
                 $product = new OrderItems();
-                $product->order_id = $order->id;
+                $product->order_id = 5;
                 $product->product_id = $data_product[$i]['product_id'];
                 $product->quantity = $data_product[$i]['quantity'];
                 $order->orderitem()->save($product);
