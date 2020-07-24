@@ -56,17 +56,17 @@ class PaymentController extends Controller
 
         Config::$isSanitized = true;
         Config::$is3ds = true;
-
-        $data_req = [
-                "data"=> [
-                  "attributes"=> [
-                  "payment_type"=> "bank_transfer",
-                  "gross_amount"=> 0,
-                  "bank"=> "bni",
-                  "order_id"=> 1
-                  ]
-                ]
-        ];
+        $requestData = $request->all();
+        // $data_req = [
+        //         "data"=> [
+        //           "attributes"=> [
+        //           "payment_type"=> "bank_transfer",
+        //           "gross_amount"=> 0,
+        //           "bank"=> "bni",
+        //           "order_id"=> 1
+        //           ]
+        //         ]
+        // ];
         $item_list = [];
         $item_order = $this->get_items(15);
         for($i=0; $i < count($item_order); $i++)
@@ -118,6 +118,20 @@ class PaymentController extends Controller
             // );
             // return $status;
             // return json_decode($status, true);
+            $gross_amount = 0;
+            foreach ($transaction['item_details'] as $item) {
+                $gross_amount += $item['quantity'] * $item['price'];
+            }
+
+            $saveOrder = new Payments();
+            $saveOrder->order_id =  $transaction_details['order_id'];
+            $saveOrder->transaction_id = '';
+            $saveOrder->transaction_type = $requestData['data']['attributes']['payment_type'];
+            $saveOrder->gross_amount = $gross_amount;
+            $saveOrder->transaction_time = '';
+            $saveOrder->transaction_status = '';
+            $saveOrder->save();
+
             return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
             // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
         } catch (\Exception $e) {
@@ -147,42 +161,7 @@ class PaymentController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request,
-        [
-            'data.attributes.full_name'=> 'required',
-            'data.attributes.username'=> 'required',
-            'data.attributes.email'=> 'required|email',
-            'data.attributes.phone_number'=> 'required'
-        ]);
-
-        $customer = Payments::find($id);
-
-        if(!$customer)
-        {
-            Log::error("Data not found");
-            return response()->json(["messages"=>"failed retrieve data","status" => false,"data"=> ''], 404);
-        }
-        $customer->fullname = $request->input('data.attributes.full_name');
-        $customer->username = $request->input('data.attributes.username');
-        $customer->email = $request->input('data.attributes.email');
-        $customer->phone_number = $request->input('data.attributes.phone_number');
-
-        if($customer->save())
-        {
-            Log::info("Success input customer");
-            return response()->json(
-                [
-                    "data"=>[
-                        "attributes"=>[
-                            "full_name" =>$request->input('data.attributes.full_name'),
-                            "username" =>$request->input('data.attributes.username'),
-                            "email" =>$request->input('data.attributes.email'),
-                            "phone_number" =>$request->input('data.attributes.phone_number')
-                        ]
-                    ]
-                        ], 201
-            );
-        }
+        
     }
 
     public function delete($id)
