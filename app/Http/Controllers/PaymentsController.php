@@ -192,7 +192,7 @@ class PaymentController extends Controller
         $status = Transaction::status($id);
         
         // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
-        return $status;
+        return base64_encode(Config::$serverKey . ':');
     }
 
     public function delete($id)

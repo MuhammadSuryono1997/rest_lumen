@@ -83,7 +83,7 @@ class ApiRequestor extends Controller
         }
 
         curl_setopt_array($ch, $curl_options);
-        return curl_exec($ch);
+        // return curl_exec($ch);
         // For testing purpose
         if (class_exists('\Midtrans\VT_Tests') && VT_Tests::$stubHttp) {
             $result = self::processStubed($curl_options, $url, $server_key, $data_hash, $post);
