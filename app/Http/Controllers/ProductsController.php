@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 use App\Products;
 use App\Orders;
 
-class CustomerController extends Controller
+class ProductController extends Controller
 {
     public function __construct()
     {
