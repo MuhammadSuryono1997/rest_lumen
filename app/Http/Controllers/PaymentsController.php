@@ -69,7 +69,7 @@ class PaymentController extends Controller
         ];
         $item_list = [];
         $item_order = $this->get_items(15);
-        for($i; $i < count($item_order); $i++)
+        for($i=0; $i < count($item_order); $i++)
         {
             $item_list['id'] = $item_order[$i]['id'];
             $item_list['price'] = $item_order[$i]['product']['price'];
