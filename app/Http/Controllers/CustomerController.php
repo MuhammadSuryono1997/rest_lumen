@@ -16,9 +16,9 @@ class CustomerController extends Controller
 
     public function getAll()
     {
-        $data = Customers::All();
+        // $data = Customers::all();
         Log::info("Get all data customers");
-        return response()->json(["messages"=>"success retrieve data","status" => true,"data"=> $data], 200);
+        return response()->json(["messages"=>"success retrieve data","status" => true,"data"=> "tes"], 200);
     }
 
     public function getById($id)
