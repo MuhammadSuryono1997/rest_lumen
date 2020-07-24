@@ -98,6 +98,7 @@ class ApiRequestor extends Controller
         } else {
             try {
                 $result_array = json_decode($result);
+                return $result_array;
             } catch (\Exception $e) {
                 throw new \Exception("API Request Error unable to json_decode API response: ".$result . ' | Request url: '.$url);
             }
