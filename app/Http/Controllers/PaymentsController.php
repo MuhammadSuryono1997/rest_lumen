@@ -76,7 +76,7 @@ class PaymentController extends Controller
             $item_list['quantity'] = $item_order[$i]['quantity'];
             $item_list['name'] = $item_order[$i]['product']['name'];
         }
-        return $item_list;
+        // return $item_list;
         // $item_list[] = [
         //     'id' => "111",
         //     'price' => 20000,
@@ -96,6 +96,7 @@ class PaymentController extends Controller
             'email'         => $customer_details->email,
             'phone'         => $customer_details->phone_number
         );
+        return $customer_details;
         
         // $transaction = array(
         //     // 'enabled_payments' => $enable_payments,
