@@ -86,7 +86,7 @@ class PaymentController extends Controller
         $item_lagi[] = $item_list;
 
         $transaction_details = array(
-            'order_id' => rand(),
+            'order_id' => 15,
             'gross_amount' => 0, // no decimal allowed for creditcard
         );
         
@@ -112,7 +112,7 @@ class PaymentController extends Controller
             sleep(1);
             // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$transaction_details['order_id'].'/status');
             return ApiRequestor::get(
-                Config::getBaseUrl() . '/' . $transaction_details['order_id'] . '/status',
+                Config::getBaseUrl() . '/' . 15 . '/status',
                 Config::$serverKey,
                 false
             );
