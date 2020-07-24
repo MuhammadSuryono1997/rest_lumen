@@ -8,8 +8,8 @@ class Payments extends Model
 {
     protected $table = 'payments';
 
-    public function order()
-    {
-        return $this->belongsTo('App\Orders');
-    }
+    // public function order()
+    // {
+    //     return $this->belongsTo('App\Orders');
+    // }
 }

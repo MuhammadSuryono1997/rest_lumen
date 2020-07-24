@@ -13,7 +13,7 @@ class Orders extends Model
         return $this->belongsTo('App\Customers');
     }
 
-    public function order_item()
+    public function orderitem()
     {
         return $this->hasOne('App\OrderItems');
     }
