@@ -67,7 +67,7 @@ class PaymentController extends Controller
                   ]
                 ]
         ];
-        $item_list = [];
+        $item_list[] = array();
         $item_order = $this->get_items(15);
         for($i=0; $i < count($item_order); $i++)
         {
@@ -77,12 +77,13 @@ class PaymentController extends Controller
             $item_list['name'] = $item_order[$i]['product']['name'];
         }
         // return $item_list;
-        // $item_list[] = [
-        //     'id' => "111",
-        //     'price' => 20000,
-        //     'quantity' => 4,
-        //     'name' => "Majohn"
-        // ];
+        $item_new[] = [
+            'id' => "111",
+            'price' => 20000,
+            'quantity' => 4,
+            'name' => "Majohn"
+        ];
+        return $item_new;
 
         $transaction_details = array(
             'order_id' => 15,
@@ -108,7 +109,7 @@ class PaymentController extends Controller
         try {
             Snap::createTransaction($transaction);
             $status = Transaction::status($transaction_details['order_id']);
-            return $status;
+            // return $status;
             // return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
             // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
         } catch (\Exception $e) {
