@@ -67,6 +67,12 @@ class PaymentController extends Controller
         //           ]
         //         ]
         // ];
+        $id = Orders::find($requestData['data']['attributes']['order_id']);
+        if(!$id)
+        {
+            Log::error("Data not found");
+            return response()->json(["messages"=>"failed id order data","status" => false,"data"=> ''], 404);
+        }
         $item_list = [];
         $item_order = $this->get_items($requestData['data']['attributes']['order_id']);
         for($i=0; $i < count($item_order); $i++)
@@ -86,7 +92,7 @@ class PaymentController extends Controller
         $item_lagi[] = $item_list;
 
         $transaction_details = array(
-            'order_id' => 15,
+            'order_id' => $requestData['data']['attributes']['order_id'],
             'gross_amount' => 0, // no decimal allowed for creditcard
         );
         
