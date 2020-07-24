@@ -67,14 +67,14 @@ class PaymentController extends Controller
                   ]
                 ]
         ];
-        $item_list[] = array();
+        $item_list = [];
         $item_order = $this->get_items(15);
         for($i=0; $i < count($item_order); $i++)
         {
-            $item_list[]['id'] = $item_order[$i]['id'];
-            $item_list[]['price'] = $item_order[$i]['product']['price'];
-            $item_list[]['quantity'] = $item_order[$i]['quantity'];
-            $item_list[]['name'] = $item_order[$i]['product']['name'];
+            $item_list['id'] = $item_order[$i]['id'];
+            $item_list['price'] = $item_order[$i]['product']['price'];
+            $item_list['quantity'] = $item_order[$i]['quantity'];
+            $item_list['name'] = $item_order[$i]['product']['name'];
         }
         // return $item_list;
         $item_new[] = [
@@ -83,7 +83,8 @@ class PaymentController extends Controller
             'quantity' => 4,
             'name' => "Majohn"
         ];
-        return $item_list;
+        $item_lagi[] = $item_list;
+        return $item_lagi;
 
         $transaction_details = array(
             'order_id' => 15,
