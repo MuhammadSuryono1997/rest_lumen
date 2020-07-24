@@ -128,10 +128,10 @@ class PaymentController extends Controller
         //     $query->select();
         // }))->get();
         $orders = Orders::find($idOrder);
-
+        $customer = Customers::find($orders->user_id);
         // $item_list[] = $data;
 
-        return $orders->user_id;
+        return $customer;
     }
 
 
