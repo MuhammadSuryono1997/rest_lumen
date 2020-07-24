@@ -68,52 +68,55 @@ class PaymentController extends Controller
                 ]
         ];
 
-        // $item_order = 
+        return $item_order = $this->get_items(15);
 
-        $item_list[] = [
-            'id' => "111",
-            'price' => 20000,
-            'quantity' => 4,
-            'name' => "Majohn"
-        ];
+        // $item_list[] = [
+        //     'id' => "111",
+        //     'price' => 20000,
+        //     'quantity' => 4,
+        //     'name' => "Majohn"
+        // ];
 
-        $transaction_details = array(
-            'order_id' => rand(),
-            'gross_amount' => 20000, // no decimal allowed for creditcard
-        );
+        // $transaction_details = array(
+        //     'order_id' => rand(),
+        //     'gross_amount' => 20000, // no decimal allowed for creditcard
+        // );
 
-        $customer_details = array(
-            'first_name'    => "Andri",
-            'last_name'     => "Litani",
-            'email'         => "andri@litani.com",
-            'phone'         => "081122334455",
-        );
+        // $customer_details = array(
+        //     'first_name'    => "Andri",
+        //     'last_name'     => "Litani",
+        //     'email'         => "andri@litani.com",
+        //     'phone'         => "081122334455",
+        // );
         
-        $transaction = array(
-            // 'enabled_payments' => $enable_payments,
-            'transaction_details' => $transaction_details,
-            'customer_details' => $customer_details,
-            'item_details' => $item_list,
-        );
+        // $transaction = array(
+        //     // 'enabled_payments' => $enable_payments,
+        //     'transaction_details' => $transaction_details,
+        //     'customer_details' => $customer_details,
+        //     'item_details' => $item_list,
+        // );
 
-        try {
-            $snapToken = Snap::createTransaction($transaction);
-            // return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
-            // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
-        } catch (\Exception $e) {
-            dd($e);
-            return ['code' => 0 , 'message' => 'failed'];
-        }
+        // try {
+        //     $snapToken = Snap::createTransaction($transaction);
+        //     // return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
+        //     // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
+        // } catch (\Exception $e) {
+        //     dd($e);
+        //     return ['code' => 0 , 'message' => 'failed'];
+        // }
     }
 
     public function get_items($idOrder)
     {
-        $item_list[] = [
-            'id' => "111",
-            'price' => 20000,
-            'quantity' => 4,
-            'name' => "Majohn"
-        ];
+        // "SELECT * FROM t_order WHERE id_order = 2";
+        $data = Order::where('order_id', $idOrder)->with(array('orderitem', function($query)
+        {
+            $query->select();
+        }))->get();
+
+        $item_list[] = $data;
+
+        return $item_list;
     }
 
 
