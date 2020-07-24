@@ -68,7 +68,7 @@ class PaymentController extends Controller
         //         ]
         // ];
         $item_list = [];
-        $item_order = $this->get_items(15);
+        $item_order = $this->get_items($requestData['data']['attributes']['order_id']);
         for($i=0; $i < count($item_order); $i++)
         {
             $item_list['id'] = $item_order[$i]['id'];
@@ -90,7 +90,7 @@ class PaymentController extends Controller
             'gross_amount' => 0, // no decimal allowed for creditcard
         );
         
-        $customer_details = $this->get_customer(15);
+        $customer_details = $this->get_customer($requestData['data']['attributes']['order_id']);
         $customer_details = array(
             'first_name'    => $customer_details->fullname,
             'last_name'     => "",
@@ -161,8 +161,8 @@ class PaymentController extends Controller
 
     public function update($id)
     {
-        // $status = Transaction::status($id);
-        $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
+        $status = Transaction::status($id);
+        // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
         return $status;
     }
 
