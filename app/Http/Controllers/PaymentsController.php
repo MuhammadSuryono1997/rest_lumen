@@ -68,7 +68,7 @@ class PaymentController extends Controller
                 ]
         ];
 
-        $item_order = $this->get_items(15);
+        return $item_order = $this->get_items(15);
 
         // $item_list[] = [
         //     'id' => "111",
@@ -82,7 +82,7 @@ class PaymentController extends Controller
         //     'gross_amount' => 20000, // no decimal allowed for creditcard
         // );
         
-        return $customer_details = $this->get_customer(15);
+        $customer_details = $this->get_customer(15);
         // $customer_details = array(
         //     'first_name'    => "Andri",
         //     'last_name'     => "Litani",
@@ -96,7 +96,7 @@ class PaymentController extends Controller
         //     'customer_details' => $customer_details,
         //     'item_details' => $item_list,
         // );
-
+            // Transaction::status(15);
         // try {
         //     $snapToken = Snap::createTransaction($transaction);
         //     // return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
