@@ -109,7 +109,7 @@ class PaymentController extends Controller
     public function get_items($idOrder)
     {
         // "SELECT * FROM t_order WHERE id_order = 2";
-        $data = Orders::where('order_id', $idOrder)->with(array('orderitem', function($query)
+        $data = Orders::where('order_id', $idOrder)->with(array('orderitem' => function($query)
         {
             $query->select();
         }))->get();
