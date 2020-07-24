@@ -84,7 +84,6 @@ class PaymentController extends Controller
             'name' => "Majohn"
         ];
         $item_lagi[] = $item_list;
-        return $item_lagi;
 
         $transaction_details = array(
             'order_id' => 15,
@@ -104,13 +103,13 @@ class PaymentController extends Controller
             // 'enabled_payments' => $enable_payments,
             'transaction_details' => $transaction_details,
             'customer_details' => $customer_details,
-            'item_details' => $item_list,
+            'item_details' => $item_lagi,
         );
             // Transaction::status(15);
         try {
             Snap::createTransaction($transaction);
             $status = Transaction::status($transaction_details['order_id']);
-            // return $status;
+            return $status;
             // return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
             // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
         } catch (\Exception $e) {
