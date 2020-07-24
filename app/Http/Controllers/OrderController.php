@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Customers;
+use App\OrderItems;
 use App\Orders;
 use App\Products;
 
@@ -47,6 +48,16 @@ class OrderController extends Controller
         $order->user_id = $request_data['data']['attributes']['user_id'];
         $order->status = 'pending';
         $order->save();
+
+        $data_product = $request_data['data']['attributes']['order_detail'];
+            foreach($data_product as $dp)
+            {
+                $product = new OrderItems();
+                $product->order_id = $order->id;
+                $product->product_id = $dp->product_id;
+                $product->quantity = $dp->quantity;
+                $order->order_item()->save($product);
+            }
         // if()
         // {
             return response()->json(["data"=>"tes"]);
