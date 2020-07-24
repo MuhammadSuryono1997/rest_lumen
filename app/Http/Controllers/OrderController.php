@@ -46,14 +46,14 @@ class OrderController extends Controller
         $request_data = $request->all();
         $order = new Orders();
         $order->user_id = $request_data['data']['attributes']['user_id'];
-        $order->order_status = 'pending';
+        $order->order_status = 'create';
         $order->save();
 
-        $data_product = $request_data['data']['attributes']['order_detail'];
+            $data_product = $request_data['data']['attributes']['order_detail'];
             for($i=0; $i<count($data_product); $i++)
             {
                 $product = new OrderItems();
-                $product->order_id = 5;
+                $product->order_id = $order->id;
                 $product->product_id = $data_product[$i]['product_id'];
                 $product->quantity = $data_product[$i]['quantity'];
                 $product->save();

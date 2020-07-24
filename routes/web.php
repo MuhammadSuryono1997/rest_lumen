@@ -38,6 +38,13 @@ $router->group(['prefix'=>'api/v1'], function() use ($router)
     $router->get('product', 'ProductController@getAll');
     $router->get('product/{id}', 'ProductController@getById');
 
+    // Payment Route
+    $router->post('payment', 'PaymentController@create');
+    $router->put('payment/{id}', 'PaymentController@update');
+    $router->delete('payment/{id}', 'PaymentController@delete');
+    $router->get('payment', 'PaymentController@getAll');
+    $router->get('payment/{id}', 'PaymentController@getById');
+    $router->post('payment/midtrans/push', 'PaymentController@pushMidtrans');
 
 
 });
