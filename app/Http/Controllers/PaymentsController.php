@@ -7,6 +7,17 @@ use Illuminate\Support\Facades\Log;
 use App\Payments;
 use App\Orders;
 
+use App\Http\Controllers\Midtrans\Config;
+use App\Http\Controllers\Midtrans\Transaction;
+
+use App\Http\Controllers\Midtrans\ApiRequestor;
+use App\Http\Controllers\Midtrans\CoreApi;
+use App\Http\Controllers\Midtrans\Notification;
+use App\Http\Controllers\Midtrans\Snap;
+use App\Http\Controllers\Midtrans\SnapApiRequestor;
+
+use App\Http\Controllers\Midtrans\Sanitizer;
+
 class PaymentController extends Controller
 {
     public function __construct()
@@ -35,34 +46,57 @@ class PaymentController extends Controller
 
     public function insert(Request $request)
     {
-        $this->validate($request,
-        [
-            'data.attributes.full_name'=> 'required',
-            'data.attributes.username'=> 'required',
-            'data.attributes.email'=> 'required|email',
-            'data.attributes.phone_number'=> 'required'
-        ]);
-        $customer = new Payments();
-        $customer->fullname = $request->input('data.attributes.full_name');
-        $customer->username = $request->input('data.attributes.username');
-        $customer->email = $request->input('data.attributes.email');
-        $customer->phone_number = $request->input('data.attributes.phone_number');
-
-        if($customer->save())
+        Config::$serverKey = 'SB-Mid-server-jMa1yoEHLCbuNPkScwv9LKwI';
+        if(!isset(Config::$serverKey))
         {
-            Log::info("Success input customer");
-            return response()->json(
-                [
-                    "data"=>[
-                        "attributes"=>[
-                            "full_name" =>$request->input('data.attributes.full_name'),
-                            "username" =>$request->input('data.attributes.username'),
-                            "email" =>$request->input('data.attributes.email'),
-                            "phone_number" =>$request->input('data.attributes.phone_number')
-                        ]
-                    ]
-                        ], 201
-            );
+            return "Please set your payment server key";
+        }
+
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        $item_list[] = [
+            'id' => "111",
+            'price' => 20000,
+            'quantity' => 4,
+            'name' => "Majohn"
+        ];
+
+        $transaction_details = array(
+            'order_id' => rand(),
+            'gross_amount' => 20000, // no decimal allowed for creditcard
+        );
+
+        $customer_details = array(
+            'first_name'    => "Andri",
+            'last_name'     => "Litani",
+            'email'         => "andri@litani.com",
+            'phone'         => "081122334455",
+        );
+        // {
+        //     "data": {
+        //       "attributes": {
+        //       "payment_type": "bank_transfer",
+        //       "gross_amount": 20000,
+        //       "bank": "bni",
+        //       "order_id": 1
+        //       }
+        //     }
+        //   }
+        $transaction = array(
+            // 'enabled_payments' => $enable_payments,
+            'transaction_details' => $transaction_details,
+            'customer_details' => $customer_details,
+            'item_details' => $item_list,
+        );
+
+        try {
+            $snapToken = Snap::createTransaction($transaction);
+            return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
+            // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
+        } catch (\Exception $e) {
+            dd($e);
+            return ['code' => 0 , 'message' => 'failed'];
         }
     }
 
