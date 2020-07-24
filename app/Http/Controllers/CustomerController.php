@@ -38,7 +38,7 @@ class CustomerController extends Controller
         $this->validate($request,
         [
             'data' => 'present|array',
-            'data.attributes.*.full_name'=> 'required'
+            'data.attributes.full_name'=> 'required'
         ]);
         // $this->validate($request,
         // [
