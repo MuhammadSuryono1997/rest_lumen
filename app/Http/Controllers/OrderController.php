@@ -54,48 +54,11 @@ class OrderController extends Controller
             {
                 $product = new OrderItems();
                 $product->order_id = $order->id;
-                $product->product_id = $data_product[$i]->product_id;
-                $product->quantity = $data_product[$i]->quantity;
+                $product->product_id = $data_product[$i]['product_id'];
+                $product->quantity = $data_product[$i]['quantity'];
                 $order->orderitem()->save($product);
             }
-        // if()
-        // {
-            return response()->json(["data"=>"tes"]);
-            // $idInserted = $order->id;
-            // $this->validate($request,
-            // [
-            //     'product_id' => 'required',
-            //     'quantity' => 'required'
-            // ]);
-
-            
-            // $data_product = $request_data['data']['attributes']['order_detail'];
-            // foreach($data_product as $dp)
-            // {
-            //     $product = new Products();
-            //     $product->order_id = $idInserted;
-            //     $product->product_id = $dp->product_id;
-            //     $product->quantity = $dp->quantity;
-            //     $product->save();
-            // }
-
-            // if($product->save())
-            // {
-            //     $idProduct = $product->id;
-            //     // $dataProduct = Products::find($idProduct);
-            //     Log::info("Success input order");
-            //     return response()->json(
-            //         [
-            //             "data"=>[
-            //                 "attributes"=>[
-            //                     "user_id" =>$order->user_id,
-            //                     "order_detail" =>$data_product
-            //                 ]
-            //             ]
-            //         ], 201
-            //     );
-            // }   
-        // }
+            return $request;
     }
 
 
