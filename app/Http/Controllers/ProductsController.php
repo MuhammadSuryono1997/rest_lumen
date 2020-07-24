@@ -37,12 +37,12 @@ class ProductController extends Controller
     {
         $this->validate($request,
         [
-            'name' => 'required',
-            'price' => 'required'
+            'data.attributes.name' => 'required',
+            'data.attributes.price' => 'required'
         ]);
         $product = new Products();
-        $product->name = $request->input('name');
-        $product->price = $request->input('price');
+        $product->name = $request->input('data.attributes.name');
+        $product->price = $request->input('data.attributes.price');
 
         if($product->save())
         {
@@ -51,8 +51,8 @@ class ProductController extends Controller
                 [
                     "data"=>[
                         "attributes"=>[
-                            "name" =>$request->input('name'),
-                            "price" =>$request->input('price')
+                            "name" =>$request->input('data.attributes.name'),
+                            "price" =>$request->input('data.attributes.price')
                         ]
                     ]
                         ], 201
@@ -65,8 +65,8 @@ class ProductController extends Controller
     {
         $this->validate($request,
         [
-            'name' => 'required',
-            'price' => 'required'
+            'data.attributes.name' => 'required',
+            'data.attributes.price' => 'required'
         ]);
         $product = Products::find($id);
         if(!$product)
@@ -74,8 +74,8 @@ class ProductController extends Controller
             Log::error("Data not found");
             return response()->json(["messages"=>"failed retrieve data","status" => false,"data"=> ''], 404);
         }
-        $product->name = $request->input('name');
-        $product->price = $request->input('price');
+        $product->name = $request->input('data.attributes.name');
+        $product->price = $request->input('data.attributes.price');
 
         if($product->save())
         {
@@ -84,8 +84,8 @@ class ProductController extends Controller
                 [
                     "data"=>[
                         "attributes"=>[
-                            "name" =>$request->input('name'),
-                            "price" =>$request->input('price')
+                            "name" =>$request->input('data.attributes.name'),
+                            "price" =>$request->input('data.attributes.price')
                         ]
                     ]
                         ], 201
