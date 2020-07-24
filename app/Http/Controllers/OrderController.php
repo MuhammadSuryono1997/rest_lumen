@@ -46,9 +46,9 @@ class OrderController extends Controller
         $order = new Orders();
         $order->user_id = $request_data['data']['attributes']['user_id'];
         $order->status = 'pending';
-
-        if($order->save())
-        {
+        $order->save();
+        // if()
+        // {
             return response()->json(["data"=>"tes"]);
             // $idInserted = $order->id;
             // $this->validate($request,
@@ -84,7 +84,7 @@ class OrderController extends Controller
             //         ], 201
             //     );
             // }   
-        }
+        // }
     }
 
 
