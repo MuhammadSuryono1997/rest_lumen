@@ -13,8 +13,8 @@ class OrderItems extends Model
         return $this->belongsTo('App\Products');
     }
 
-    // public function order()
-    // {
-    //     return $this->belongsTo('App\Orders');
-    // }
+    public function order()
+    {
+        return $this->belongsTo('App\Orders');
+    }
 }

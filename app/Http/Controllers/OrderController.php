@@ -43,59 +43,7 @@ class OrderController extends Controller
         //     'data.user_id' => 'required',
         //     'status' => 'required'
         // ]);
-        $request_data = $request->all();
-        $order = new Orders();
-        $order->user_id = $request_data['data']['attributes']['user_id'];
-        $order->status = 'pending';
-        $order->save();
-
-        $data_product = $request_data['data']['attributes']['order_detail'];
-            foreach($data_product as $dp)
-            {
-                $product = new OrderItems();
-                $product->order_id = $order->id;
-                $product->product_id = $dp->product_id;
-                $product->quantity = $dp->quantity;
-                $order->order_item()->save($product);
-            }
-        // if()
-        // {
-            return response()->json(["data"=>"tes"]);
-            // $idInserted = $order->id;
-            // $this->validate($request,
-            // [
-            //     'product_id' => 'required',
-            //     'quantity' => 'required'
-            // ]);
-
-            
-            // $data_product = $request_data['data']['attributes']['order_detail'];
-            // foreach($data_product as $dp)
-            // {
-            //     $product = new Products();
-            //     $product->order_id = $idInserted;
-            //     $product->product_id = $dp->product_id;
-            //     $product->quantity = $dp->quantity;
-            //     $product->save();
-            // }
-
-            // if($product->save())
-            // {
-            //     $idProduct = $product->id;
-            //     // $dataProduct = Products::find($idProduct);
-            //     Log::info("Success input order");
-            //     return response()->json(
-            //         [
-            //             "data"=>[
-            //                 "attributes"=>[
-            //                     "user_id" =>$order->user_id,
-            //                     "order_detail" =>$data_product
-            //                 ]
-            //             ]
-            //         ], 201
-            //     );
-            // }   
-        // }
+        return $request->all();
     }
 
 
