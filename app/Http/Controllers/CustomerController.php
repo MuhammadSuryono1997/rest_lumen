@@ -35,14 +35,13 @@ class CustomerController extends Controller
 
     public function insert(Request $request)
     {
-        // $this->validate($request,
-        // [
-        //     'data.attributes.full_name'=> 'required'
-        // ]);
-        // $this->validate($request,
-        // [
-        //     'data'=>'required'
-        // ]);
+        $this->validate($request,
+        [
+            'data.attributes.full_name'=> 'required',
+            'data.attributes.username'=> 'required',
+            'data.attributes.email'=> 'required|email',
+            'data.attributes.phone_number'=> 'required'
+        ]);
         $customer = new Customers();
         $customer->fullname = $request->input('data.attributes.full_name');
         $customer->username = $request->input('data.attributes.username');
@@ -56,10 +55,10 @@ class CustomerController extends Controller
                 [
                     "data"=>[
                         "attributes"=>[
-                            "full_name" =>$request->input('full_name'),
-                            "username" =>$request->input('username'),
-                            "email" =>$request->input('email'),
-                            "phone_number" =>$request->input('phone_number')
+                            "full_name" =>$request->input('data.attributes.full_name'),
+                            "username" =>$request->input('data.attributes.username'),
+                            "email" =>$request->input('data.attributes.email'),
+                            "phone_number" =>$request->input('data.attributes.phone_number')
                         ]
                     ]
                         ], 201
@@ -72,10 +71,10 @@ class CustomerController extends Controller
     {
         $this->validate($request,
         [
-            'full_name' => 'required',
-            'username' => 'required',
-            'email' => 'required|email',
-            'phone_number'=> 'required'
+            'data.attributes.full_name'=> 'required',
+            'data.attributes.username'=> 'required',
+            'data.attributes.email'=> 'required|email',
+            'data.attributes.phone_number'=> 'required'
         ]);
 
         $customer = Customers::find($id);
@@ -85,10 +84,10 @@ class CustomerController extends Controller
             Log::error("Data not found");
             return response()->json(["messages"=>"failed retrieve data","status" => false,"data"=> ''], 404);
         }
-        $customer->fullname = $request->input('full_name');
-        $customer->username = $request->input('username');
-        $customer->email = $request->input('email');
-        $customer->phone_number = $request->input('phone_number');
+        $customer->fullname = $request->input('data.attributes.full_name');
+        $customer->username = $request->input('data.attributes.username');
+        $customer->email = $request->input('data.attributes.email');
+        $customer->phone_number = $request->input('data.attributes.phone_number');
 
         if($customer->save())
         {
@@ -97,10 +96,10 @@ class CustomerController extends Controller
                 [
                     "data"=>[
                         "attributes"=>[
-                            "full_name" =>$request->input('full_name'),
-                            "username" =>$request->input('username'),
-                            "email" =>$request->input('email'),
-                            "phone_number" =>$request->input('phone_number')
+                            "full_name" =>$request->input('data.attributes.full_name'),
+                            "username" =>$request->input('data.attributes.username'),
+                            "email" =>$request->input('data.attributes.email'),
+                            "phone_number" =>$request->input('data.attributes.phone_number')
                         ]
                     ]
                         ], 201
