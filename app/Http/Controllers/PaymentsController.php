@@ -44,7 +44,7 @@ class PaymentController extends Controller
         return response()->json(["messages"=>"success retrieve data","status" => true,"data"=> $data], 200);
     }
 
-    public function insert(Request $request)
+    public function create(Request $request)
     {
         Config::$serverKey = 'SB-Mid-server-jMa1yoEHLCbuNPkScwv9LKwI';
         if(!isset(Config::$serverKey))
