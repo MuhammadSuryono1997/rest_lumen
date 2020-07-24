@@ -22,7 +22,7 @@ class Transaction extends Controller
         return ApiRequestor::get(
             Config::getBaseUrl() . '/' . $id . '/status',
             Config::$serverKey,
-            falsetrue
+            false
         );
     }
 

@@ -110,9 +110,14 @@ class PaymentController extends Controller
             $snapToken = Snap::createTransaction($transaction);
             // return $snapToken;
             sleep(1);
-            $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$transaction_details['order_id'].'/status');
-            // $status = Transaction::status($transaction_details['order_id']);
-            return json_decode($status, true);
+            // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$transaction_details['order_id'].'/status');
+            return ApiRequestor::get(
+                Config::getBaseUrl() . '/' . $transaction_details['order_id'] . '/status',
+                Config::$serverKey,
+                false
+            );
+            // return $status;
+            // return json_decode($status, true);
             // return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
             // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
         } catch (\Exception $e) {
