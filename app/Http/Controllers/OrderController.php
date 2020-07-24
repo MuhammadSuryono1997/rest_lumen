@@ -36,40 +36,48 @@ class OrderController extends Controller
 
     public function insert(Request $request)
     {
-        $this->validate($request,
-        [
-            'user_id' => 'required',
-            'status' => 'required'
-        ]);
+        // $this->validate($request,
+        // [
+        //     'data.attributes.order_detail.*' => 'present|array',
+        //     'data.user_id' => 'required',
+        //     'status' => 'required'
+        // ]);
+        $request_data = $request->all();
         $order = new Orders();
-        $order->user_id = $request->input('user_id');
+        $order->user_id = $request_data['data']['attributes']['user_id'];
         $order->status = 'pending';
 
         if($order->save())
         {
             $idInserted = $order->id;
-            $this->validate($request,
-            [
-                'product_id' => 'required',
-                'quantity' => 'required'
-            ]);
+            // $this->validate($request,
+            // [
+            //     'product_id' => 'required',
+            //     'quantity' => 'required'
+            // ]);
 
-            $product = new Products();
-            $product->order_id = $idInserted;
-            $product->product_id = $request->input('product_id');
-            $product->quantity = $request->input('quantity');
+            
+            $data_product = $request_data['data']['attributes']['order_detail'];
+            foreach($data_product as $dp)
+            {
+                $product = new Products();
+                $product->order_id = $idInserted;
+                $product->product_id = $dp->product_id;
+                $product->quantity = $dp->quantity;
+                $product->save();
+            }
 
             if($product->save())
             {
                 $idProduct = $product->id;
-                $dataProduct = Products::find($idProduct);
+                // $dataProduct = Products::find($idProduct);
                 Log::info("Success input order");
                 return response()->json(
                     [
                         "data"=>[
                             "attributes"=>[
                                 "user_id" =>$order->user_id,
-                                "order_detail" =>$dataProduct
+                                "order_detail" =>$data_product
                             ]
                         ]
                     ], 201
