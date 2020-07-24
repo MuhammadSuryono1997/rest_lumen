@@ -43,6 +43,8 @@ class OrderController extends Controller
         //     'data.user_id' => 'required',
         //     'status' => 'required'
         // ]);
+        $order = new Orders();
+        $order->save();
         return $request->all();
     }
 
