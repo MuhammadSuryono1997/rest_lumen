@@ -167,7 +167,7 @@ class PaymentController extends Controller
 
     public function update($id)
     {
-        $status = Transaction::status($id);
+        $status = Transaction::approve($id);
         // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
         return $status;
     }
