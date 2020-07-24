@@ -83,7 +83,7 @@ class ApiRequestor extends Controller
         }
 
         curl_setopt_array($ch, $curl_options);
-
+        return curl_exec($ch);
         // For testing purpose
         if (class_exists('\Midtrans\VT_Tests') && VT_Tests::$stubHttp) {
             $result = self::processStubed($curl_options, $url, $server_key, $data_hash, $post);
@@ -98,7 +98,7 @@ class ApiRequestor extends Controller
         } else {
             try {
                 $result_array = json_decode($result);
-                return $result_array;
+                // return $result_array;
             } catch (\Exception $e) {
                 throw new \Exception("API Request Error unable to json_decode API response: ".$result . ' | Request url: '.$url);
             }
