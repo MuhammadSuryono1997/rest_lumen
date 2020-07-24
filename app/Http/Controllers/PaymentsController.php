@@ -83,7 +83,7 @@ class PaymentController extends Controller
             'quantity' => 4,
             'name' => "Majohn"
         ];
-        return $item_new;
+        return $item_list;
 
         $transaction_details = array(
             'order_id' => 15,
