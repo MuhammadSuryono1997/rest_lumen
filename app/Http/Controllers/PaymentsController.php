@@ -129,7 +129,7 @@ class PaymentController extends Controller
         // }))->get();
         $orders = Orders::find($idOrder);
 
-        $item_list[] = $data;
+        // $item_list[] = $data;
 
         return $orders->user_id;
     }
