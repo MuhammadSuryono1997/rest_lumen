@@ -84,10 +84,10 @@ class PaymentController extends Controller
         //     'name' => "Majohn"
         // ];
 
-        // $transaction_details = array(
-        //     'order_id' => rand(),
-        //     'gross_amount' => 20000, // no decimal allowed for creditcard
-        // );
+        $transaction_details = array(
+            'order_id' => 15,
+            'gross_amount' => 0, // no decimal allowed for creditcard
+        );
         
         $customer_details = $this->get_customer(15);
         $customer_details = array(
@@ -96,23 +96,25 @@ class PaymentController extends Controller
             'email'         => $customer_details->email,
             'phone'         => $customer_details->phone_number
         );
-        return $customer_details;
-        
-        // $transaction = array(
-        //     // 'enabled_payments' => $enable_payments,
-        //     'transaction_details' => $transaction_details,
-        //     'customer_details' => $customer_details,
-        //     'item_details' => $item_list,
-        // );
+        // return $customer_details;
+        $enable_payments = ['bni', 'bca'];
+        $transaction = array(
+            // 'enabled_payments' => $enable_payments,
+            'transaction_details' => $transaction_details,
+            'customer_details' => $customer_details,
+            'item_details' => $item_list,
+        );
             // Transaction::status(15);
-        // try {
-        //     $snapToken = Snap::createTransaction($transaction);
-        //     // return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
-        //     // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
-        // } catch (\Exception $e) {
-        //     dd($e);
-        //     return ['code' => 0 , 'message' => 'failed'];
-        // }
+        try {
+            Snap::createTransaction($transaction);
+            $status = Transaction::status($transaction_details['order_id']);
+            return $status;
+            // return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
+            // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
+        } catch (\Exception $e) {
+            dd($e);
+            return ['code' => 0 , 'message' => 'failed'];
+        }
     }
 
     public function get_items($idOrder)
