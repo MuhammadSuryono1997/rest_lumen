@@ -15,7 +15,7 @@ class Orders extends Model
 
     public function order_item()
     {
-        return $this->hasOne('App\OrderItems', 'foreign_key', 'order_id');
+        return $this->hasOne('App\OrderItems');
     }
 
     public function payment()
