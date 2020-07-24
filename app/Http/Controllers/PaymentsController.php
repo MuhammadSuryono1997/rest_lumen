@@ -190,9 +190,9 @@ class PaymentController extends Controller
         // }
         // curl_close($curl);
         $status = Transaction::status($id);
-        
+
         // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
-        return $status;
+        return "Status";
     }
 
     public function delete($id)
