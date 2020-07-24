@@ -14,3 +14,25 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix'=>'api/v1'], function() use ($router)
+{
+    // Customer Route
+    $router->post('customer', 'CustomerController@insert');
+    $router->put('customer/{id}', 'CustomerController@update');
+    $router->delete('customer/{id}', 'CustomerController@delete');
+    $router->get('customer', 'CustomerController@getAll');
+    $router->get('customer/{id}', 'CustomerController@getById');
+
+    // Order Route
+    $router->post('order', 'OrderController@insert');
+    $router->put('order/{id}', 'OrderController@update');
+    $router->delete('order/{id}', 'OrderController@delete');
+    $router->get('order', 'OrderController@getAll');
+    $router->get('order/{id}', 'OrderController@getById');
+
+    
+
+
+
+});
