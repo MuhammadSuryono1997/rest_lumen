@@ -112,6 +112,9 @@ class PaymentController extends Controller
         $data = Orders::where('id', $idOrder)->with(array('orderitem' => function($query)
         {
             $query->select();
+        }))->with(array('product' => function($query)
+        {
+            $query->select();
         }))->get();
 
         $item_list[] = $data;
