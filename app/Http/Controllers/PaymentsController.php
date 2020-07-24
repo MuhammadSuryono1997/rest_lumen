@@ -171,10 +171,10 @@ class PaymentController extends Controller
         $curl = curl_init("$url");
         // error_log(var_export($curl));
 
-        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         // curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Authorization: Basic Auth ' . Config::$serverKey,
+            'Authorization: Basic ' . base64_encode(Config::$serverKey.':'),
         ));
 
         $response = curl_exec($curl);
