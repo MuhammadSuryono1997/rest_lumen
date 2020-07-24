@@ -126,7 +126,7 @@ class PaymentController extends Controller
             $saveOrder = new Payments();
             $saveOrder->order_id =  $transaction_details['order_id'];
             $saveOrder->transaction_id = '';
-            $saveOrder->paymen_type = $requestData['data']['attributes']['payment_type'];
+            $saveOrder->payment_type = $requestData['data']['attributes']['payment_type'];
             $saveOrder->gross_amount = $gross_amount;
             $saveOrder->transaction_time = '';
             $saveOrder->transaction_status = '';
