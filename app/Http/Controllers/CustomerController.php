@@ -44,7 +44,7 @@ class CustomerController extends Controller
         //     'data'=>'required'
         // ]);
         $customer = new Customers();
-        $customer->fullname = $request->input('data.attributes.data');
+        $customer->fullname = $request->input('data.attributes.full_name');
         $customer->username = $request->input('data.attributes.username');
         $customer->email = $request->input('data.attributes.email');
         $customer->phone_number = $request->input('data.attributes.phone_number');
