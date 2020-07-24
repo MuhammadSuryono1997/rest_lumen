@@ -167,7 +167,7 @@ class PaymentController extends Controller
 
     public function update($id)
     {
-        $url = "https://api.line.me/v2/bot/message/". $message_id. "/content";
+        $url = "https://api.sandbox.midtrans.com/v2/". $id. "/status";
         $curl = curl_init("$url");
         // error_log(var_export($curl));
 
