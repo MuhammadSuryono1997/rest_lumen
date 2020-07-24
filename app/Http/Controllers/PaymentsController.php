@@ -203,7 +203,7 @@ class PaymentController extends Controller
         
         // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
         // return $status;
-        return $response;
+        return response()->json($response);
     }
 
     public function delete($id)
