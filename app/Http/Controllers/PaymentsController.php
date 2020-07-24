@@ -107,10 +107,10 @@ class PaymentController extends Controller
         );
             // Transaction::status(15);
         try {
-            $snapToken = Snap::createTransaction($transaction);
-            // $status = Transaction::status($transaction_details['order_id']);
-            // return $status;
-            return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
+            Snap::createTransaction($transaction);
+            $status = Transaction::status($transaction_details['order_id']);
+            return $status;
+            // return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
             // return ['code' => 1 , 'message' => 'success' , 'result' => $snapToken];
         } catch (\Exception $e) {
             dd($e);
