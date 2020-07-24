@@ -18,7 +18,7 @@ class CustomerController extends Controller
     {
         $data = Customers::all();
         Log::info("Get all data customers");
-        return response()->json(["messages"=>"success retrieve data","status" => true,"data"=> "tes"], 200);
+        return response()->json(["messages"=>"success retrieve data","status" => true,"data"=> $data], 200);
     }
 
     public function getById($id)
