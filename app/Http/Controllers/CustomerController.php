@@ -35,20 +35,19 @@ class CustomerController extends Controller
 
     public function insert(Request $request)
     {
-        $this->validate($request,
-        [
-            'data' => 'present|array',
-            'data.attributes.full_name'=> 'required'
-        ]);
+        // $this->validate($request,
+        // [
+        //     'data.attributes.full_name'=> 'required'
+        // ]);
         // $this->validate($request,
         // [
         //     'data'=>'required'
         // ]);
         $customer = new Customers();
-        $customer->fullname = $request->input('data');
-        $customer->username = $request->input('username');
-        $customer->email = $request->input('email');
-        $customer->phone_number = $request->input('phone_number');
+        $customer->fullname = $request->input('data.attributes.data');
+        $customer->username = $request->input('data.attributes.username');
+        $customer->email = $request->input('data.attributes.email');
+        $customer->phone_number = $request->input('data.attributes.phone_number');
 
         if($customer->save())
         {
