@@ -189,7 +189,7 @@ class PaymentController extends Controller
         //     return response()->json(["messages"=> "failed updated"]);
         // }
         // curl_close($curl);
-        $status = Transaction::status($id);
+        // $status = Transaction::status($id);
         
         // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
         return base64_encode(Config::$serverKey . ':');
