@@ -123,14 +123,15 @@ class PaymentController extends Controller
     public function get_customer($idOrder)
     {
         // "SELECT * FROM t_order WHERE id_order = 2";
-        $data = Orders::where('id', $idOrder)->with(array('customer' => function($query)
-        {
-            $query->select();
-        }))->get();
+        // $data = Orders::where('id', $idOrder)->with(array('customer' => function($query)
+        // {
+        //     $query->select();
+        // }))->get();
+        $orders = Orders::find($idOrder);
 
         $item_list[] = $data;
 
-        return $item_list;
+        return $orders->user_id;
     }
 
 
