@@ -172,7 +172,10 @@ class PaymentController extends Controller
         // error_log(var_export($curl));
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false); // 証明書の検証を行わない
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
+        curl_setopt($curl, CURLOPT_PUT, true); // 証明書の検証を行わない
+        curl_setopt($curl, CURLOPT_HEADER, true); // 証明書の検証を行わない
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'Authorization: Basic ' . base64_encode(Config::$serverKey.':'),
         ));
@@ -181,6 +184,10 @@ class PaymentController extends Controller
         // $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
         // $header = substr($response, 0, $header_size);
         // $image_binary = substr($response, $header_size);
+        if($response === false)
+        {
+            return response()->json(["messages"=> "failed updated"]);
+        }
         curl_close($curl);
         // $status = Transaction::approve($id);
         // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
