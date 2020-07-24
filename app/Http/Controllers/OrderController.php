@@ -48,16 +48,13 @@ class OrderController extends Controller
         $order->user_id = $request_data['data']['attributes']['user_id'];
         $order->order_status = 'pending';
         $order->save();
-
-        $data_product = $request_data['data']['attributes']['order_detail'];
-            foreach($data_product as $dp)
-            {
+            
                 $product = new OrderItems();
                 $product->order_id = $order->id;
-                $product->product_id = $dp->product_id;
-                $product->quantity = $dp->quantity;
+                $product->product_id = $request_data['data']['attributes']['order_detail']['product_id'];
+                $product->quantity = $request_data['data']['attributes']['order_detail']['quantity'];
                 $order->order_item()->save($product);
-            }
+            
         // if()
         // {
             return response()->json(["data"=>"tes"]);
