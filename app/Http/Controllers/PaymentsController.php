@@ -167,31 +167,31 @@ class PaymentController extends Controller
 
     public function update($id)
     {
-        $url = "https://api.sandbox.midtrans.com/v2/". $id. "/status";
-        $curl = curl_init("$url");
-        // error_log(var_export($curl));
+        // $url = "https://api.sandbox.midtrans.com/v2/". $id. "/status";
+        // $curl = curl_init("$url");
+        // // error_log(var_export($curl));
 
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false); // 証明書の検証を行わない
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
-        curl_setopt($curl, CURLOPT_PUT, true); // 証明書の検証を行わない
-        curl_setopt($curl, CURLOPT_HEADER, true); // 証明書の検証を行わない
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Authorization: Basic ' . base64_encode(Config::$serverKey.':'),
-        ));
+        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false); // 証明書の検証を行わない
+        // curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
+        // curl_setopt($curl, CURLOPT_PUT, true); // 証明書の検証を行わない
+        // curl_setopt($curl, CURLOPT_HEADER, true); // 証明書の検証を行わない
+        // curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        //     'Authorization: Basic ' . base64_encode(Config::$serverKey.':'),
+        // ));
 
-        $response = curl_exec($curl);
-        // $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        // $header = substr($response, 0, $header_size);
-        // $image_binary = substr($response, $header_size);
-        if($response === false)
-        {
-            return response()->json(["messages"=> "failed updated"]);
-        }
-        curl_close($curl);
-        // $status = Transaction::approve($id);
+        // $response = curl_exec($curl);
+        // // $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+        // // $header = substr($response, 0, $header_size);
+        // // $image_binary = substr($response, $header_size);
+        // if($response === false)
+        // {
+        //     return response()->json(["messages"=> "failed updated"]);
+        // }
+        // curl_close($curl);
+        $status = Transaction::status($id);
         // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
-        return Config::$serverKey;
+        return $status;
     }
 
     public function delete($id)
