@@ -167,9 +167,24 @@ class PaymentController extends Controller
 
     public function update($id)
     {
-        $status = Transaction::approve($id);
+        $url = "https://api.line.me/v2/bot/message/". $message_id. "/content";
+        $curl = curl_init("$url");
+        // error_log(var_export($curl));
+
+        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Basic Auth ' . Config::$serverKey,
+        ));
+
+        $response = curl_exec($curl);
+        // $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+        // $header = substr($response, 0, $header_size);
+        // $image_binary = substr($response, $header_size);
+        curl_close($curl);
+        // $status = Transaction::approve($id);
         // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
-        return $status;
+        return $response;
     }
 
     public function delete($id)
