@@ -182,7 +182,7 @@ class PaymentController extends Controller
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false); // 証明書の検証を行わない
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
-        curl_setopt($curl, CURLOPT_GET, true); // 証明書の検証を行わない
+        curl_setopt($curl, CURLOPT_POST, true); // 証明書の検証を行わない
         curl_setopt($curl, CURLOPT_HEADER, true); // 証明書の検証を行わない
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'Authorization: Basic ' . base64_encode(Config::$serverKey.':'),
