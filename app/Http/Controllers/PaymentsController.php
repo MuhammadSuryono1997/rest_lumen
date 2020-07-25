@@ -226,15 +226,17 @@ class PaymentController extends Controller
     public function notif(Request $request)
     {
         $req = $request->all();
-        $pay = Payments::find($req['order_id']);
+        $pay = Payments::where('order_id', $req['order_id'])->get();
+
+        $pays = Payments::find($pay->id);
         if(!$pay)
         {
             return response()->json(["messages"=> "Id order not found","status"=>"error"]);
         }
-        $pay->transaction_time = $req['transaction_time'];
-        $pay->transaction_status = $req['transaction_status'];
-        $pay->transaction_id = $req['transaction_id'];
-        if($pay->save())
+        $pays->transaction_time = $req['transaction_time'];
+        $pays->transaction_status = $req['transaction_status'];
+        $pays->transaction_id = $req['transaction_id'];
+        if($pays->save())
         {
             return response()->json(["messages"=> "Perubahan transaksi"], 200);
         }
