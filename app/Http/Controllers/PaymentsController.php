@@ -227,19 +227,19 @@ class PaymentController extends Controller
     {
         $req = $request->all();
         $pay = Payments::where('order_id', $req['order_id'])->get();
-        return $pay;
-        // $pays = Payments::find($pay->id);
-        // if(!$pay)
-        // {
-        //     return response()->json(["messages"=> "Id order not found","status"=>"error"]);
-        // }
-        // $pays->transaction_time = $req['transaction_time'];
-        // $pays->transaction_status = $req['transaction_status'];
-        // $pays->transaction_id = $req['transaction_id'];
-        // if($pays->save())
-        // {
-        //     return response()->json(["messages"=> "Perubahan transaksi"], 200);
-        // }
+        // return $pay;
+        $pays = Payments::find($pay[0]->id);
+        if(!$pay)
+        {
+            return response()->json(["messages"=> "Id order not found","status"=>"error"]);
+        }
+        $pays->transaction_time = $req['transaction_time'];
+        $pays->transaction_status = $req['transaction_status'];
+        $pays->transaction_id = $req['transaction_id'];
+        if($pays->save())
+        {
+            return response()->json(["messages"=> "Perubahan transaksi"], 200);
+        }
 
     }
 }
