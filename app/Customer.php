@@ -10,6 +10,6 @@ class Customers extends Model
 
     public function order()
     {
-        return $this->hasMany('App\Orders', 'foreign_key', 'user_id');
+        return $this->hasMany('App\Orders', 'user_id');
     }
 }
