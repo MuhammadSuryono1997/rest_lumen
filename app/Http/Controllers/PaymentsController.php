@@ -105,9 +105,9 @@ class PaymentController extends Controller
             'phone'         => $customer_details->phone_number
         );
         // return $customer_details;
-        $enable_payments = ['bni', 'bca'];
+        $enable_payments = ['bank_transfer'];
         $transaction = array(
-            // 'enabled_payments' => $enable_payments,
+            'enabled_payments' => $enable_payments,
             'payment_typr' => 'bank_transfer',
             'transaction_details' => $transaction_details,
             'customer_details' => $customer_details,
@@ -116,7 +116,7 @@ class PaymentController extends Controller
         );
             // Transaction::status(15);
         try {
-            $snapToken = CoreApi::charge($transaction);
+            $snapToken = Snap::createTransaction($transaction);
             // return $snapToken;
             // sleep(1);
             // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$transaction_details['order_id'].'/status');
@@ -134,11 +134,11 @@ class PaymentController extends Controller
 
             $saveOrder = new Payments();
             $saveOrder->order_id =  $transaction_details['order_id'];
-            $saveOrder->transaction_id = 0;
+            $saveOrder->transaction_id = '';
             $saveOrder->payment_type = $requestData['data']['attributes']['payment_type'];
             $saveOrder->gross_amount = $gross_amount;
             $saveOrder->transaction_time = '';
-            $saveOrder->transaction_status = '';
+            $saveOrder->transaction_status = 'created';
             $saveOrder->save();
 
             return response()->json(['code' => 1 , 'message' => 'success' , 'result' => $snapToken]);
@@ -225,9 +225,19 @@ class PaymentController extends Controller
 
     public function notif(Request $request)
     {
-        $order = new Orders();
-        $order->user_id = 14;
-        $order->order_status = 'notifikasi';
-        $order->save();
+        $req = $request->all();
+        $pay = Payments::find($req['order_id']);
+        if(!$pay)
+        {
+            return response()->json(["messages"=> "Id order not found","status"=>"error"]);
+        }
+        $pay->transaction_time = $req['transaction_time'];
+        $pay->transaction_status = $req['transaction_status'];
+        $pay->transaction_id = $req['transaction_id'];
+        if($pay->save())
+        {
+            return response()->json(["messages"=> "Perubahan transaksi"], 200);
+        }
+
     }
 }
