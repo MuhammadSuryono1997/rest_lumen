@@ -113,7 +113,7 @@ class PaymentController extends Controller
         );
             // Transaction::status(15);
         try {
-            $snapToken = Snap::createTransaction($transaction);
+            $snapToken = CoreApi::charge($transaction);
             // return $snapToken;
             // sleep(1);
             // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$transaction_details['order_id'].'/status');
@@ -167,6 +167,9 @@ class PaymentController extends Controller
 
     public function update($id)
     {
+        $data = $this->getById($id);
+        $data = $data->data;
+        $id_order = $data->order_id;
         Config::$serverKey = 'SB-Mid-server-jMa1yoEHLCbuNPkScwv9LKwI';
         if(!isset(Config::$serverKey))
         {
@@ -175,15 +178,8 @@ class PaymentController extends Controller
 
         Config::$isSanitized = true;
         Config::$is3ds = true;
-        $url = "https://api.sandbox.midtrans.com/v2/". $id. "/status";
+        $url = "https://api.sandbox.midtrans.com/v2/". $id_order. "/status";
         $curl = curl_init("$url");
-        // error_log(var_export($curl));
-
-        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false); // 証明書の検証を行わない
-        // curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 証明書の検証を行わない
-        // curl_setopt($curl, CURLOPT_POST, true); // 証明書の検証を行わない
-        // curl_setopt($curl, CURLOPT_HEADER, true); // 証明書の検証を行わない
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'Authorization: Basic ' . base64_encode(Config::$serverKey.':'),
             'Content-Type: application/json',
@@ -191,19 +187,21 @@ class PaymentController extends Controller
         ));
 
         $response = curl_exec($curl);
-        // // $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        // // $header = substr($response, 0, $header_size);
-        // // $image_binary = substr($response, $header_size);
-        // if($response === false)
-        // {
-        //     return response()->json(["messages"=> "failed updated"]);
-        // }
         curl_close($curl);
-        // $status = Transaction::status($id);
-        
-        // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$id.'/status');
-        // return $status;
-        return response()->json($response);
+        $res = response()->json($response);
+        return $this->save_update($res, $id);
+    }
+
+    public function save_update($data,$id)
+    {
+        $data = json_decode($data);
+        $orders = Orders::find($id);
+        $orders->transaction_time = $data->transaction_time;
+        $orders->transaction_status = $data->transaction_status;
+        $orders->transaction_id = $data->transaction_id;
+        $orders->save();
+
+        return response()->json(["messages => 'sukses update data'"]);
     }
 
     public function delete($id)
