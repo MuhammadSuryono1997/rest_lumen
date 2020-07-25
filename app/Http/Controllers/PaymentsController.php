@@ -8,6 +8,7 @@ use App\Payments;
 use App\Orders;
 use App\Customers;
 use App\OrderItems;
+use App\NotifTable;
 
 use App\Http\Controllers\Midtrans\Config;
 use App\Http\Controllers\Midtrans\Transaction;
@@ -115,7 +116,7 @@ class PaymentController extends Controller
         );
             // Transaction::status(15);
         try {
-            $snapToken = post('https://api.sandbox.midtrans.com/v2/charge', $transaction);
+            $snapToken = CoreApi::charge($transaction);
             // return $snapToken;
             // sleep(1);
             // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$transaction_details['order_id'].'/status');
@@ -220,5 +221,13 @@ class PaymentController extends Controller
             Log::info('Data success delete');
             return response()->json(["messages"=>"success delete data","status" => true,"data"=> $data], 200);
         }
+    }
+
+    public function notif(Request $request)
+    {
+        $notif = new NotifTable();
+        $notif->respon = $request;
+        $notif->save();
+        return $notif;
     }
 }

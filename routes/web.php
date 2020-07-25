@@ -15,6 +15,8 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->post('notif', 'PaymentController@notif');
+
 $router->group(['prefix'=>'api/v1'], function() use ($router)
 {
     // Customer Route
