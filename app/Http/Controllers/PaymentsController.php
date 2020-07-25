@@ -227,7 +227,7 @@ class PaymentController extends Controller
     {
         $req = $request->all();
         $pay = Payments::where('order_id', $req['order_id'])->get();
-
+        return $pay;
         // $pays = Payments::find($pay->id);
         // if(!$pay)
         // {
