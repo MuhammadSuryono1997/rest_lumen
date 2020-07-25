@@ -41,13 +41,14 @@ class CoreApi extends Controller
         if (Config::$overrideNotifUrl)
             Config::$curlOptions[CURLOPT_HTTPHEADER][] = 'X-Override-Notification: ' . Config::$overrideNotifUrl;
 
+        return $payloads;
         $result = ApiRequestor::post(
             Config::getBaseUrl() . '/charge',
             Config::$serverKey,
             $payloads
         );
 
-        return $result;
+        // return $result;
     }
 
     /**
