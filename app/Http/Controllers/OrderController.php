@@ -18,7 +18,11 @@ class OrderController extends Controller
 
     public function getAll()
     {
-        $data = Orders::All();
+        $data = Orders::with(array('orderitem' => function($query)
+        {
+            $query->select();
+        }))->get();
+        
         Log::info("Get all data Orders");
         return response()->json(["messages"=>"success retrieve data","status" => true,"data"=> $data], 200);
     }
