@@ -107,13 +107,15 @@ class PaymentController extends Controller
         $enable_payments = ['bni', 'bca'];
         $transaction = array(
             // 'enabled_payments' => $enable_payments,
+            'payment_typr' => 'bank_transfer',
             'transaction_details' => $transaction_details,
             'customer_details' => $customer_details,
+            'bank_transfer'=> 'bni',
             'item_details' => $item_lagi,
         );
             // Transaction::status(15);
         try {
-            $snapToken = CoreApi::charge($transaction);
+            $snapToken = post('https://api.sandbox.midtrans.com/v2/charge', $transaction);
             // return $snapToken;
             // sleep(1);
             // $status = file_get_contents('https://api.sandbox.midtrans.com/v2/'.$transaction_details['order_id'].'/status');
