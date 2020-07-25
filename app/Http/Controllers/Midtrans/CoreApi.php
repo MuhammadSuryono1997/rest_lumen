@@ -17,7 +17,7 @@ class CoreApi extends Controller
     public static function charge($params)
     {
         $payloads = array(
-            'payment_type' => 'credit_card'
+            'payment_type' => 'bank_transfer'
         );
 
         if (isset($params['item_details'])) {
