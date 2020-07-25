@@ -225,9 +225,9 @@ class PaymentController extends Controller
 
     public function notif(Request $request)
     {
-        $notif = new NotifTable();
-        $notif->respon = $request;
-        $notif->save();
-        return $notif;
+        $order = new Orders();
+        $order->user_id = 'Contoh Notif';
+        $order->order_status = 'notifikasi';
+        $order->save();
     }
 }
